@@ -24,15 +24,14 @@ public class HhVacancyClient {
     public List<VacancyDto> getVacanciesListByName(Searcher searcher) {
         String url = UriComponentsBuilder.fromHttpUrl(appProperties.getUrl())
                 .queryParam("text", searcher.getName())
-                .queryParam("area", searcher.getArea().getName())
-                .queryParam("salary", searcher.getSalary().getFrom())
-                .queryParam("salary", searcher.getSalary().getTo())
-                .queryParam("salary", searcher.getSalary().getCurrency())
-//                .queryParam("only_with_salary", searcher.getOnlyWithSalary())
+                .queryParam("area", "61") // ???
+                .queryParam("salary", ((searcher.getSalary().getFrom() + searcher.getSalary().getTo()) / 2))
+                .queryParam("currency", searcher.getSalary().getCurrency())
+                .queryParam("only_with_salary", searcher.isOnlyWithSalary())
                 .toUriString();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", appProperties.getAuthorization());
+//        headers.set("Authorization", appProperties.getAuthorization());
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
