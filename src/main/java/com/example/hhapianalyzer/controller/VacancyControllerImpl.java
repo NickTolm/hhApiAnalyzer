@@ -19,4 +19,13 @@ public class VacancyControllerImpl implements VacancyController {
         return vacanciesAnalyzerService.getVacanciesListByName(searcher);
     }
 
+    @GetMapping("/getAverageSalary") // считает среднюю зп для списка вакансий по критериям
+    public double getAverageSalaryForVacancyListByName(@RequestBody Searcher searcher) {
+        return vacanciesAnalyzerService.getAverageSalaryForVacancyListByName(searcher);
+    }
+
+
+
+    
+
 }
