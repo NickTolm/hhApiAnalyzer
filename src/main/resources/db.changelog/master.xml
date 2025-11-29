@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-vacancy" author="Nikita">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="vacancy"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE SEQUENCE vacancy_seq START WITH 1 INCREMENT BY 1;
+
+            CREATE TABLE VACANCY
+            (
+                ID             BIGINT DEFAULT NEXT VALUE FOR vacancy_seq PRIMARY KEY,
+                NAME            VARCHAR(255),
+                HASTEST        BOOLEAN,
+                RESPONSELETTERREQUIRED  BOOLEAN,
+                AREA            ????,
+                SALARY          ????,
+                PUBLISHEDAT     VARCHAR(255),
+                CREATEDAT       VARCHAR(255),
+                WORKFORMAT      ????,
+
+                DESCRIPTION    VARCHAR(255),
+                PRICE_PER_HOUR INT
+            );
+            CREATE INDEX IDX_VACANCY_ID ON VACANCY (ID);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

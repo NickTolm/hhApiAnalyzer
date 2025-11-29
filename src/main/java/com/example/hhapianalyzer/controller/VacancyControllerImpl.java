@@ -16,7 +16,7 @@ public class VacancyControllerImpl implements VacancyController {
 
     @GetMapping("/getVacancies")
     public List<VacancyDto> getVacanciesList(@RequestBody Searcher searcher) {
-        return vacanciesAnalyzerService.getVacanciesListByName(searcher);
+        return vacanciesAnalyzerService.getVacanciesList(searcher);
     }
 
     @GetMapping("/getAverageSalary") // считает среднюю зп для списка вакансий по критериям

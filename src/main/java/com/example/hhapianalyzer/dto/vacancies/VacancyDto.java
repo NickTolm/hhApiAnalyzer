@@ -10,8 +10,8 @@ import java.util.List;
 public class VacancyDto {
     private String id;
     private String name;
-    private boolean has_test;
-    private boolean response_letter_required;
+    private boolean hasTest;
+    private boolean responseLetterRequired;
     private Area area;
     private Salary salary;
 //    private SalaryRange salaryRange;
@@ -19,8 +19,8 @@ public class VacancyDto {
 //    private Address address;
 //    private String responseUrl;
 //    private String sortPointDistance;
-    private String published_at;
-    private String created_at;
+    private String publishedAt;
+    private String createdAt;
 //    private boolean archived;
 //    private String applyAlternateUrl;
 //    private boolean showContacts;
@@ -38,12 +38,12 @@ public class VacancyDto {
 //    private List<WorkingTimeMode> workingTimeModes;
 //    private boolean acceptTemporary;
 //    private List<Object> flyInFlyOutDuration;
-    private List<WorkFormat> work_format;
-    private List<WorkingHours> working_hours;
+    private List<WorkFormat> workFormat;
+    private List<WorkingHours> workingHours;
 //    private List<WorkScheduleByDays> workScheduleByDays; // 5/2
 //    private boolean nightShifts;
 //    private List<ProfessionalRole> professionalRoles;
-    private boolean accept_incomplete_resumes;
+    private boolean acceptIncompleteResumes;
     private Experience experience;
 //    private Employment employment;
 //    private EmploymentForm employmentForm;

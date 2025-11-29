@@ -35,7 +35,8 @@ public class Searcher {
       "name": "Более 6 лет"
     }
     */
-    private String employment_form;
+    @JsonProperty("employment_form")
+    private String employmentForm;
     /*
     "employment_form": [
     {
@@ -56,7 +57,8 @@ public class Searcher {
     }
   ],
      */
-    private String work_schedule_by_days;
+    @JsonProperty("work_schedule_by_days")
+    private String workScheduleByDays;
     /*
         {
       "id": "SIX_ON_ONE_OFF",
@@ -116,7 +118,8 @@ public class Searcher {
     }
   ],
      */
-    private String work_format;
+    @JsonProperty("work_format")
+    private String workFormat;
     /*
     "work_format": [
     {
@@ -136,7 +139,10 @@ public class Searcher {
       "name": "Разъездной"
     }
   ],
-  "resume_employment_form": [
+  */
+  @JsonProperty("resume_employment_form")
+  private String resumeEmploymentForm;
+  /*
     {
       "id": "FULL",
       "name": "Постоянная работа"
@@ -153,8 +159,7 @@ public class Searcher {
       "id": "VOLUNTEER",
       "name": "Волонтёрство"
     }
-  ],
-     */
+   */
     private String education;
     /*
     not_required_or_not_specified - не требуется или не указано

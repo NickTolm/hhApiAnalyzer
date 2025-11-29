@@ -5,13 +5,11 @@ import com.example.hhapianalyzer.dto.vacancies.Searcher;
 import com.example.hhapianalyzer.dto.vacancies.VacancyDto;
 import com.example.hhapianalyzer.service.hhintegration.CityCollector;
 import com.example.hhapianalyzer.service.hhintegration.HhVacancyClient;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.hhapianalyzer.utils.ConvertSearcherToMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,48 +17,24 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
     private final HhVacancyClient hhVacancyClient;
+    private final ConvertSearcherToMap convertSearcherToMap;
     private final CityCollector cityCollector;
 
-    public List<VacancyDto> getVacanciesListByName(Searcher searcher) {
+    public List<VacancyDto> getVacanciesList(Searcher searcher) {
+        searcher.getArea().setName(cityCollector.getLocationById(searcher.getArea().getName()).toString());
 
-        Map<String, String> searcherMap = convertSearcherToMap(searcher);
+        Map<String, String> searcherMap = convertSearcherToMap.convertSearcherToMap(searcher);
 
         List<VacancyDto> vacancyDtoListHh = hhVacancyClient.getVacanciesListByName(searcherMap);
         List<VacancyDto> vacancyDtoList = new ArrayList<>();
         if (searcher.getSalary() != null) {
             for (VacancyDto vacancyDto : vacancyDtoListHh) {
-                if ((searcher.getSalary().getFrom() <= vacancyDto.getSalary().getFrom())) {
+                if ((searcher.getSalary().getFrom() <= vacancyDto.getSalary().getFrom())) {     // если не передавать "only_with_salary": "true" , то из-за ваканисий с salary - null ошибка?
                     vacancyDtoList.add(vacancyDto);
                 }
             }
         }
         return vacancyDtoList;
-    }
-
-    private Map<String, String> convertSearcherToMap(Searcher searcher) {
-        Map<String, String> searcherMap = new HashMap<>();
-        if (searcher.getName() != null) {
-            searcherMap.put("text", searcher.getName());
-        }
-        if (searcher.getArea() != null) {
-            searcherMap.put("area", cityCollector.getLocationById(searcher.getArea().getName()).toString());
-        }
-        if (searcher.isOnlyWithSalary()) {
-            searcherMap.put("only_with_salary", String.valueOf(true));
-        }
-        if (searcher.getSalary() != null) {
-            searcherMap.put("salary", String.valueOf(((searcher.getSalary().getFrom() + searcher.getSalary().getTo()) / 2)));
-        }
-        if (searcher.getPublishedAt() != null) {
-            searcherMap.put("published_at", searcher.getPublishedAt());
-        }
-        if (searcher.getCreatedAt() != null) {
-            searcherMap.put("created_at", searcher.getCreatedAt());
-        }
-        if (searcher.getExperience() != null) {
-            searcherMap.put("experience", searcher.getExperience().getId());
-        }
-            return searcherMap;
     }
 
 
@@ -73,7 +47,7 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
     }
 
     public double getAverageSalaryForVacancyListByName(Searcher searcher) {
-        List<VacancyDto> vacanciesList = getVacanciesListByName(searcher);
+        List<VacancyDto> vacanciesList = getVacanciesList(searcher);
         if (vacanciesList == null || vacanciesList.isEmpty()) {
             return 0.0;
         }
