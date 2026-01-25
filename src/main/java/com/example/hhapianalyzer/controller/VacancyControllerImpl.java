@@ -1,7 +1,7 @@
 package com.example.hhapianalyzer.controller;
 
-import com.example.hhapianalyzer.dto.vacancies.Searcher;
-import com.example.hhapianalyzer.dto.vacancies.VacancyDto;
+import com.example.hhapianalyzer.entity.vacancy.Searcher;
+import com.example.hhapianalyzer.entity.vacancy.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +15,7 @@ public class VacancyControllerImpl implements VacancyController {
     private final VacanciesAnalyzerServiceImpl vacanciesAnalyzerService;
 
     @GetMapping("/getVacancies")
-    public List<VacancyDto> getVacanciesList(@RequestBody Searcher searcher) {
+    public List<Vacancy> getVacanciesList(@RequestBody Searcher searcher) {
         return vacanciesAnalyzerService.getVacanciesList(searcher);
     }
 
@@ -23,9 +23,5 @@ public class VacancyControllerImpl implements VacancyController {
     public double getAverageSalaryForVacancyListByName(@RequestBody Searcher searcher) {
         return vacanciesAnalyzerService.getAverageSalaryForVacancyListByName(searcher);
     }
-
-
-
-    
 
 }

@@ -1,9 +1,8 @@
 package com.example.hhapianalyzer.service.hhintegration;
 
 import com.example.hhapianalyzer.config.AppProperties;
-import com.example.hhapianalyzer.dto.vacancies.HhVacancyResponse;
-import com.example.hhapianalyzer.dto.vacancies.Searcher;
-import com.example.hhapianalyzer.dto.vacancies.VacancyDto;
+import com.example.hhapianalyzer.entity.vacancy.HhVacancyResponse;
+import com.example.hhapianalyzer.entity.vacancy.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class HhVacancyClient {
     private final AppProperties appProperties;
     private final RestTemplate restTemplate;
 
-    public List<VacancyDto> getVacanciesListByName(Map<String, String> searcherMap) {
+    public List<Vacancy> getVacanciesListByName(Map<String, String> searcherMap) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(appProperties.getUrl())
                 .path("/vacancies");
 
@@ -35,7 +33,7 @@ public class HhVacancyClient {
 
         String url = builder.toUriString();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", appProperties.getAuthorization());
+//        headers.set("Authorization", appProperties.getAuthorization());
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 

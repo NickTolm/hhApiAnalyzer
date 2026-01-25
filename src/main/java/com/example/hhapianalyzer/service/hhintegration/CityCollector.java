@@ -2,6 +2,7 @@ package com.example.hhapianalyzer.service.hhintegration;
 
 import com.example.hhapianalyzer.config.AppProperties;
 import com.example.hhapianalyzer.dto.AreaHhDto.AreaHhDto;
+//import com.example.hhapianalyzer.repository.AreaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -22,6 +23,7 @@ public class CityCollector {
     private final RestTemplate restTemplate;
     private Map<String, Integer> map;
     private static final ObjectMapper objectMapper = new ObjectMapper();
+//    private final AreaRepository areaRepository;
 
     public Integer getLocationById(String name) {
         return map.get(name);
@@ -43,6 +45,7 @@ public class CityCollector {
             throw new RuntimeException(e);
         }
 
+
         map = collectCitiesRecursive(rootAreas).stream()
                 .filter(area -> area.getLat() != null && area.getLng() != null)
                 .collect(Collectors.toMap(
@@ -50,6 +53,7 @@ public class CityCollector {
                         AreaHhDto::getId,
                         (existing, replacement) -> existing
                 ));
+
     }
 
     private static List<AreaHhDto> collectCitiesRecursive(List<AreaHhDto> areas) {
@@ -61,6 +65,7 @@ public class CityCollector {
                 allAreas.addAll(collectCitiesRecursive(area.getAreas()));
             }
         }
+
         return allAreas;
     }
 }

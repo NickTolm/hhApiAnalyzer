@@ -1,0 +1,69 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="create-table-vacancy" author="nikita" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="vacancy"/>
+            </not>
+        </preConditions>
+
+        <sql>
+            CREATE TABLE AREA
+            (
+                AREA_ID BIGINT PRIMARY KEY,
+                NAME    VARCHAR(255)
+            );
+
+
+            CREATE TABLE SALARY
+            (
+                SALARY_ID    BIGINT PRIMARY KEY,
+                SALARY_FROM  BIGINT,
+                SALARY_TO    BIGINT,
+                CURRENCY     VARCHAR(255)
+            );
+
+            CREATE TABLE WORK_FORMAT
+            (
+                WORKFORMAT_ID   BIGINT PRIMARY KEY,
+                NAME            VARCHAR(255)
+            );
+
+            CREATE TABLE WORKING_HOURS
+            (
+                WORKING_HOURS_ID BIGINT PRIMARY KEY,
+                NAME            VARCHAR(255)
+            );
+
+            CREATE TABLE EXPERIENCE
+            (
+                EXPERIENCE_ID   VARCHAR(255) PRIMARY KEY,
+                NAME            VARCHAR(255)
+            );
+
+            CREATE SEQUENCE vacancy_seq START WITH 1 INCREMENT BY 1;
+
+            CREATE TABLE VACANCY
+            (
+                ID                              BIGINT DEFAULT nextval('vacancy_seq') PRIMARY KEY,
+                NAME                            VARCHAR(255),
+                HAS_TEST                        BOOLEAN,
+                RESPONSE_LETTER_REQUIRED        BOOLEAN,
+                AREA_ID                         BIGINT REFERENCES AREA(AREA_ID),
+                SALARY_ID                       BIGINT REFERENCES SALARY(SALARY_ID),
+                PUBLISHED_AT                    VARCHAR(255),
+                CREATED_AT                      VARCHAR(255),
+                WORK_FORMAT_ID                  BIGINT REFERENCES WORK_FORMAT(WORKFORMAT_ID),
+                WORKING_HOURS_ID                BIGINT REFERENCES WORKING_HOURS(WORKING_HOURS_ID),
+                ACCEPT_IN_COMPLETE_RESUMES      BOOLEAN,
+                EXPERIENCE_ID                   VARCHAR(255) REFERENCES EXPERIENCE(EXPERIENCE_ID)
+            );
+
+            CREATE INDEX IDX_VACANCY_ID ON VACANCY (ID);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

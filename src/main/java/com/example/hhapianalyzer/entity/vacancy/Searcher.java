@@ -1,4 +1,4 @@
-package com.example.hhapianalyzer.dto.vacancies;
+package com.example.hhapianalyzer.entity.vacancy;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

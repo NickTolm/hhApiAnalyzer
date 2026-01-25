@@ -1,8 +1,9 @@
 package com.example.hhapianalyzer.service;
 
-import com.example.hhapianalyzer.dto.vacancies.Salary;
-import com.example.hhapianalyzer.dto.vacancies.Searcher;
-import com.example.hhapianalyzer.dto.vacancies.VacancyDto;
+import com.example.hhapianalyzer.entity.vacancy.Salary;
+import com.example.hhapianalyzer.entity.vacancy.Searcher;
+import com.example.hhapianalyzer.entity.vacancy.Vacancy;
+import com.example.hhapianalyzer.repository.VacancyRepository;
 import com.example.hhapianalyzer.service.hhintegration.CityCollector;
 import com.example.hhapianalyzer.service.hhintegration.HhVacancyClient;
 import com.example.hhapianalyzer.utils.ConvertSearcherToMap;
@@ -19,22 +20,25 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
     private final HhVacancyClient hhVacancyClient;
     private final ConvertSearcherToMap convertSearcherToMap;
     private final CityCollector cityCollector;
+    private final VacancyRepository vacancyRepository;
 
-    public List<VacancyDto> getVacanciesList(Searcher searcher) {
+    public List<Vacancy> getVacanciesList(Searcher searcher) {
         searcher.getArea().setName(cityCollector.getLocationById(searcher.getArea().getName()).toString());
 
         Map<String, String> searcherMap = convertSearcherToMap.convertSearcherToMap(searcher);
 
-        List<VacancyDto> vacancyDtoListHh = hhVacancyClient.getVacanciesListByName(searcherMap);
-        List<VacancyDto> vacancyDtoList = new ArrayList<>();
+        List<Vacancy> vacancyListHh = hhVacancyClient.getVacanciesListByName(searcherMap);
+        List<Vacancy> vacancyList = new ArrayList<>();
         if (searcher.getSalary() != null) {
-            for (VacancyDto vacancyDto : vacancyDtoListHh) {
-                if ((searcher.getSalary().getFrom() <= vacancyDto.getSalary().getFrom())) {     // если не передавать "only_with_salary": "true" , то из-за ваканисий с salary - null ошибка?
-                    vacancyDtoList.add(vacancyDto);
+            for (Vacancy vacancy : vacancyListHh) {
+                if ((searcher.getSalary().getFrom() <= vacancy.getSalary().getFrom())) {     // если не передавать "only_with_salary": "true" , то из-за ваканисий с salary - null ошибка?
+                    vacancyList.add(vacancy);
                 }
             }
         }
-        return vacancyDtoList;
+
+        vacancyRepository.saveAll(vacancyList);
+        return vacancyList;
     }
 
 
@@ -47,7 +51,7 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
     }
 
     public double getAverageSalaryForVacancyListByName(Searcher searcher) {
-        List<VacancyDto> vacanciesList = getVacanciesList(searcher);
+        List<Vacancy> vacanciesList = getVacanciesList(searcher);
         if (vacanciesList == null || vacanciesList.isEmpty()) {
             return 0.0;
         }
@@ -55,7 +59,7 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
         double totalSum = 0;
         int count = 0;
 
-        for (VacancyDto vacancy : vacanciesList) {
+        for (Vacancy vacancy : vacanciesList) {
             Salary salary = vacancy.getSalary();
 
             // Пропускаем вакансии без зарплаты

@@ -1,7 +1,6 @@
 package com.example.hhapianalyzer.utils;
 
-import com.example.hhapianalyzer.dto.vacancies.Searcher;
-import com.example.hhapianalyzer.service.hhintegration.CityCollector;
+import com.example.hhapianalyzer.entity.vacancy.Searcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class ConvertSearcherToMap {
-
 
     public Map<String, String> convertSearcherToMap(Searcher searcher) {
         Map<String, String> searcherMap = new HashMap<>();
