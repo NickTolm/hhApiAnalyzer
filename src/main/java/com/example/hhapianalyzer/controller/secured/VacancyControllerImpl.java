@@ -1,4 +1,4 @@
-package com.example.hhapianalyzer.controller;
+package com.example.hhapianalyzer.controller.secured;
 
 import com.example.hhapianalyzer.entity.vacancy.Searcher;
 import com.example.hhapianalyzer.entity.vacancy.Vacancy;

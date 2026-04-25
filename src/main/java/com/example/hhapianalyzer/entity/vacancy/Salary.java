@@ -11,14 +11,14 @@ import lombok.ToString;
 public class Salary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "salary_id")
+    @Column(name = "SALARY_ID")
     private Long salaryId;
 
     @Column(name = "SALARY_FROM")
-    private int from;
+    private long from;
 
     @Column(name = "SALARY_TO")
-    private int to;
+    private long to;
 
     @Column(name = "CURRENCY", length = 3)
     private String currency;

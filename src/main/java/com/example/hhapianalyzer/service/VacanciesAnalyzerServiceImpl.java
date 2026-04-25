@@ -22,6 +22,7 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
     private final CityCollector cityCollector;
     private final VacancyRepository vacancyRepository;
 
+
     public List<Vacancy> getVacanciesList(Searcher searcher) {
         searcher.getArea().setName(cityCollector.getLocationById(searcher.getArea().getName()).toString());
 
@@ -36,7 +37,6 @@ public class VacanciesAnalyzerServiceImpl implements VacanciesAnalyzerService {
                 }
             }
         }
-
         vacancyRepository.saveAll(vacancyList);
         return vacancyList;
     }

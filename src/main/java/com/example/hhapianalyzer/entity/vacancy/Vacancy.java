@@ -27,7 +27,7 @@ public class Vacancy {
     private Area area;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "salary_id", referencedColumnName = "salary_id")
+    @JoinColumn(name = "SALARY_ID")
     private Salary salary;
 
     @Column(name = "PUBLISHED_AT")
